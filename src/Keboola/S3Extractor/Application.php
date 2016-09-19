@@ -29,7 +29,7 @@ class Application
      */
     public function actionRun($outputPath)
     {
-        $extractor = new Extractor($this->parameters, new Logger('keboola.ex-mongodb'));
+        $extractor = new Extractor($this->parameters);
         return $extractor->extract($outputPath);
     }
 }

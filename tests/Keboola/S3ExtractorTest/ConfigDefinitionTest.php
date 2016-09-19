@@ -18,7 +18,7 @@ class ConfigDefinitionTest extends \PHPUnit_Framework_TestCase
         "accessKeyId": "a",
         "secretAccessKey": "b",
         "bucket": "c",
-        "object": "d"
+        "key": "d"
     }
 }
 JSON;

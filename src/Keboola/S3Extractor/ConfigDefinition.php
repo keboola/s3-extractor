@@ -26,7 +26,7 @@ class ConfigDefinition implements ConfigurationInterface
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()
-                ->scalarNode('object')
+                ->scalarNode('key')
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()
