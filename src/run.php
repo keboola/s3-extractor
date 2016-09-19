@@ -26,21 +26,10 @@ try {
         file_get_contents($arguments['data'] . '/config.json'),
         JsonEncoder::FORMAT
     );
-    $outputPath = $arguments['data'] . '/out/tables';
+    $outputPath = $arguments['data'] . '/out/files';
 
     $application = new Application($config);
-    $action = isset($config['action']) ? $config['action'] : 'run';
-
-    switch ($action) {
-        case 'testConnection':
-            $result = $application->actionTestConnection();
-            echo json_encode($result);
-            break;
-        default:
-            $result = $application->actionRun($outputPath);
-            break;
-    }
-
+    $application->actionRun($outputPath);
     exit(0);
 } catch (Exception $e) {
     echo $e->getMessage();
