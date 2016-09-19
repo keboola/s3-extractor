@@ -1,11 +1,9 @@
 # Keboola S3 Extractor 
 
-Download files from S3
+Download files from S3 to `/data/out/files`. 
 
 ## Features
-- Full load - destination table is truncated before load
-- Incremental load - data are merged
-- Primary key dedup for all engines
+- Wildcard - use `*` or `%` at the end for wildcards; wildcards do not download subfolders.
 
 ## Development
 
