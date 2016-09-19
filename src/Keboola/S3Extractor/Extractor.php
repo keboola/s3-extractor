@@ -53,15 +53,42 @@ class Extractor
             $key = substr($key, 1);
         }
 
-        // Destination file
-        $dst = $outputPath . '/' . substr($key, strrpos($key, '/'));
+        $filesToDownload = [];
+        
+        // Detect wildcard at the end
+        if (substr($key, -1) == '*' || substr($key, - 1) == '%') {
+            $iterator = $client->getIterator('ListObjects', [
+                'Bucket' => $this->parameters['bucket'],
+                'Prefix' => substr($key, 0, strlen($key) - 1)
+            ]);
+            foreach ($iterator as $object) {
+                // Skip objects in Glacier
+                if ($object['StorageClass'] === "GLACIER") {
+                    continue;
+                }
+                // Skip objects in subfolders
+                if (strrpos($object['Key'], '/', strlen($key)) !== false) {
+                    continue;
+                }
+                $dst = $outputPath . '/' . substr($object['Key'], strrpos($object['Key'], '/'));
+                $filesToDownload[] = [
+                    'Bucket' => $this->parameters['bucket'],
+                    'Key' => $object['Key'],
+                    'SaveAs' => $dst
+                ];
+            }
+        } else {
+            $dst = $outputPath . '/' . substr($key, strrpos($key, '/'));
+            $filesToDownload[] = [
+                'Bucket' => $this->parameters['bucket'],
+                'Key' => $key,
+                'SaveAs' => $dst
+            ];
+        }
 
-        $client->getObject([
-            'Bucket' => $this->parameters['bucket'],
-            'Key' => $key,
-            'SaveAs' => $dst
-        ]);
-
+        foreach ($filesToDownload as $fileToDownload) {
+            $client->getObject($fileToDownload);
+        }
         return true;
     }
 }
