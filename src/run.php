@@ -31,7 +31,7 @@ try {
     $application = new Application($config);
     $application->actionRun($outputPath);
     exit(0);
-} catch (Exception $e) {
+} catch (\Keboola\S3Extractor\Exception $e) {
     echo $e->getMessage();
     exit(1);
 }
