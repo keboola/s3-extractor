@@ -9,8 +9,8 @@ Download files from S3 to `/data/out/files`.
 
 ### Preparation
 
-- Create AWS S3 bucket and IAM user using `aws-services.json` cloudformation template.
-- Create `.env` file. Use output of `aws-services` cloudfront stack to fill the variables and your Redshift credentials.
+- Create AWS S3 bucket and IAM user using [`aws-services.json`](./aws-services.json) CloudFormation template.
+- Create `.env` file. Use output of `aws-services` CloudFront stack to fill the variables and your Redshift credentials.
 ```
 AWS_S3_BUCKET=
 AWS_REGION=
