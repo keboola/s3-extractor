@@ -7,7 +7,13 @@ services:
     stdin_open: true
     volumes:
       - ./:/code
-
+    environment:
+     - AWS_S3_BUCKET
+     - AWS_REGION
+     - PREPARE_TESTS_AWS_ACCESS_KEY
+     - PREPARE_TESTS_AWS_SECRET_KEY
+     - TESTS_AWS_ACCESS_KEY
+     - TESTS_AWS_SECRET_KEY
   php-tests:
     image: keboola/s3-extractor
     command: >

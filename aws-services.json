@@ -134,7 +134,7 @@
         }
       }
     },
-    "AccessKeyTestUser": {
+    "AccessKeyTestsUser": {
       "Type": "AWS::IAM::AccessKey",
       "Properties": {
         "UserName": {
