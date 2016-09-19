@@ -11,7 +11,7 @@
          bootstrap="tests/bootstrap.php">
 
     <testsuite name="Main Test">
-        <directory>tests/Keboola/S3Extractor</directory>
+        <directory>tests/Keboola/S3ExtractorTest</directory>
     </testsuite>
 
     <filter>

@@ -3,8 +3,9 @@
 namespace Keboola\S3Extractor;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class ConfigDefinition
+class ConfigDefinition implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
