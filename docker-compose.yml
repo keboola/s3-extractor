@@ -1,0 +1,18 @@
+version: "2"
+services:
+  php:
+    build: .
+    image: keboola/s3-extractor
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/code
+
+  php-tests:
+    image: keboola/s3-extractor
+    command: >
+             sh -c '
+             ./tests.sh
+             '
+    volumes:
+      - ./:/code
