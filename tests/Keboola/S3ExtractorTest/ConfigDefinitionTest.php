@@ -16,7 +16,7 @@ class ConfigDefinitionTest extends \PHPUnit_Framework_TestCase
 {
     "parameters": {
         "accessKeyId": "a",
-        "secretAccessKey": "b",
+        "#secretAccessKey": "b",
         "bucket": "c",
         "key": "d"
     }
@@ -38,7 +38,7 @@ JSON;
 {
     "parameters": {
         "accessKeyId": "a",
-        "secretAccessKey": "b",
+        "#secretAccessKey": "b",
         "bucket": "c"
     }   
 }

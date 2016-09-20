@@ -27,7 +27,7 @@ class WildcardKeyTest extends \PHPUnit_Framework_TestCase
     {
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/f*"
         ]);
@@ -47,7 +47,7 @@ class WildcardKeyTest extends \PHPUnit_Framework_TestCase
     {
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/folder2/*"
         ]);

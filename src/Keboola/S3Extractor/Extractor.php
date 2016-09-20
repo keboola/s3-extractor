@@ -34,7 +34,7 @@ class Extractor
             'version' => '2006-03-01',
             'credentials' => [
                 'key' => $this->parameters['accessKeyId'],
-                'secret' => $this->parameters['secretAccessKey'],
+                'secret' => $this->parameters['#secretAccessKey'],
             ]
         ]);
         try {
@@ -53,7 +53,7 @@ class Extractor
             'version' => '2006-03-01',
             'credentials' => [
                 'key' => $this->parameters['accessKeyId'],
-                'secret' => $this->parameters['secretAccessKey'],
+                'secret' => $this->parameters['#secretAccessKey'],
             ]
         ]);
 

@@ -27,7 +27,7 @@ class OneFileTest extends \PHPUnit_Framework_TestCase
     {
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/file1.csv"
         ]);
@@ -42,7 +42,7 @@ class OneFileTest extends \PHPUnit_Framework_TestCase
     {
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/folder1/file1.csv"
         ]);

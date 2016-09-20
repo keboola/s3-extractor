@@ -18,7 +18,7 @@ class ConfigDefinition implements ConfigurationInterface
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()
-                ->scalarNode('secretAccessKey')
+                ->scalarNode('#secretAccessKey')
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()

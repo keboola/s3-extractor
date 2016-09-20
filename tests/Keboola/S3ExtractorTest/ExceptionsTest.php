@@ -30,7 +30,7 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
         $this->expectExceptionMessage("Bucket " . getenv(self::AWS_S3_BUCKET_ENV) . "_invalid" . " not found.");
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV) . "_invalid",
             "key" => "/file1.csv"
         ]);
@@ -45,7 +45,7 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
 
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV) . "_invalid",
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV) . "_invalid",
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/file1.csv"
         ]);
@@ -59,7 +59,7 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
 
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => "/doesnotexist"
         ]);
