@@ -12,7 +12,7 @@
         ]
       }
     },
-    "PrepareTestsUser": {
+    "UploadUser": {
       "Type": "AWS::IAM::User",
       "Properties": {
         "Path": "/",
@@ -69,7 +69,7 @@
         ]
       }
     },
-    "TestsUser": {
+    "DownloadUser": {
       "Type": "AWS::IAM::User",
       "Properties": {
         "Path": "/",
@@ -126,19 +126,19 @@
         ]
       }
     },
-    "AccessKeyPrepareTestsUser": {
+    "AccessKeyIdUploadUser": {
       "Type": "AWS::IAM::AccessKey",
       "Properties": {
         "UserName": {
-          "Ref": "PrepareTestsUser"
+          "Ref": "UploadUser"
         }
       }
     },
-    "AccessKeyTestsUser": {
+    "AccessKeyIdDownloadUser": {
       "Type": "AWS::IAM::AccessKey",
       "Properties": {
         "UserName": {
-          "Ref": "TestsUser"
+          "Ref": "DownloadUser"
         }
       }
     }
@@ -155,28 +155,28 @@
         "Ref": "S3FilesBucket"
       }
     },
-    "awsKeyPrepareTestsUser": {
+    "AccessKeyIdKeyUploadUser": {
       "Value": {
-        "Ref": "AccessKeyPrepareTestsUser"
+        "Ref": "AccessKeyIdUploadUser"
       }
     },
-    "awsSecretPrepareTestsUser": {
+    "SecretKeyUploadUser": {
       "Value": {
         "Fn::GetAtt": [
-          "AccessKeyPrepareTestsUser",
+          "AccessKeyIdUploadUser",
           "SecretAccessKey"
         ]
       }
     },
-    "awsKeyTestsUser": {
+    "AccessKeyIdDownloadUser": {
       "Value": {
-        "Ref": "AccessKeyTestsUser"
+        "Ref": "AccessKeyIdDownloadUser"
       }
     },
-    "awsSecretTestsUser": {
+    "SecretKeyDownloadUser": {
       "Value": {
         "Fn::GetAtt": [
-          "AccessKeyTestsUser",
+          "AccessKeyIdDownloadUser",
           "SecretAccessKey"
         ]
       }
