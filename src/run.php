@@ -31,6 +31,9 @@ try {
     $application = new Application($config);
     $application->actionRun($outputPath);
     exit(0);
+} catch (\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException $e) {
+    echo "Invalid configuration";
+    exit(1);
 } catch (\Keboola\S3Extractor\Exception $e) {
     echo $e->getMessage();
     exit(1);
