@@ -2,6 +2,7 @@
 
 namespace Keboola\S3Extractor;
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Symfony\Component\Config\Definition\Processor;
