@@ -52,20 +52,6 @@ class ExceptionsTest extends \PHPUnit_Framework_TestCase
         $extractor->extract($this->path);
     }
 
-    public function testInvalidCredentialsWildcard()
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Invalid credentials or permissions not set correctly. Did you set s3:GetBucketLocation?");
-
-        $extractor = new Extractor([
-            "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV) . "_invalid",
-            "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-            "key" => "/file*"
-        ]);
-        $extractor->extract($this->path);
-    }
-
     public function testInvalidKey()
     {
         $this->expectException(Exception::class);
