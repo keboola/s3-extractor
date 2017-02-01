@@ -42,3 +42,4 @@ services:
       - AWS_REGION
       - TESTS_AWS_ACCESS_KEY
       - TESTS_AWS_SECRET_KEY
+      - CODECLIMATE_REPO_TOKEN
