@@ -25,3 +25,20 @@ services:
       - AWS_REGION
       - TESTS_AWS_ACCESS_KEY
       - TESTS_AWS_SECRET_KEY
+
+  php-code-coverage:
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile/code-coverage
+    image: keboola/s3-extractor-code-coverage
+    command: >
+             sh -c '
+             ./code-coverage.sh
+             '
+    volumes:
+      - ./:/code
+    environment:
+      - AWS_S3_BUCKET
+      - AWS_REGION
+      - TESTS_AWS_ACCESS_KEY
+      - TESTS_AWS_SECRET_KEY
