@@ -3,6 +3,8 @@ namespace Keboola\S3Extractor;
 
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use Monolog\Handler\NullHandler;
+use Monolog\Logger;
 
 class Extractor
 {
@@ -12,13 +14,24 @@ class Extractor
     private $parameters;
 
     /**
+     * @var Logger
+     */
+
+    /**
      * Extractor constructor.
      *
-     * @param $parameters
+     * @param array $parameters
+     * @param Logger|null $logger
      */
-    public function __construct($parameters)
+    public function __construct(array $parameters, Logger $logger = null)
     {
         $this->parameters = $parameters;
+        if ($logger) {
+            $this->logger = $logger;
+        } else {
+            $this->logger = new Logger('dummy');
+            $this->logger->pushHandler(new NullHandler());
+        }
     }
 
     /**
@@ -106,6 +119,7 @@ class Extractor
 
         foreach ($filesToDownload as $fileToDownload) {
             try {
+                $this->logger->info("Downloading file /" . $fileToDownload["Key"]);
                 $client->getObject($fileToDownload);
             } catch (S3Exception $e) {
                 if ($e->getStatusCode() == 404) {
@@ -117,6 +131,5 @@ class Extractor
                 throw $e;
             }
         }
-        return true;
     }
 }

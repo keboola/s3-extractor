@@ -2,6 +2,8 @@
 
 namespace Keboola\S3Extractor;
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Symfony\Component\Config\Definition\Processor;
 
 class Application
@@ -29,7 +31,11 @@ class Application
      */
     public function actionRun($outputPath)
     {
-        $extractor = new Extractor($this->parameters);
+        $logger = new Logger('Log');
+        $streamHandler = new StreamHandler('php://stdout');
+        $streamHandler->setFormatter(new LineFormatter("%message%"));
+        $logger->pushHandler($streamHandler);
+        $extractor = new Extractor($this->parameters, $logger);
         return $extractor->extract($outputPath);
     }
 }
