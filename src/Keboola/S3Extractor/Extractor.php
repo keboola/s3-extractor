@@ -97,6 +97,13 @@ class Extractor
                 if ($object['StorageClass'] === "GLACIER") {
                     continue;
                 }
+
+                // Skip folder object keys (/myfolder/) from folder wildcards (/myfolder/*) - happens with empty folder
+                // https://github.com/keboola/s3-extractor/issues/1
+                if (strlen($key) > strlen($object['Key'])) {
+                    continue;
+                }
+
                 // Skip objects in subfolders
                 if (strrpos($object['Key'], '/', strlen($key)) !== false) {
                     continue;

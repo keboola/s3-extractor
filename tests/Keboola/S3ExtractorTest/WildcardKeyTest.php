@@ -85,4 +85,33 @@ class WildcardKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($testHandler->hasInfo("Downloading file /folder2/file1.csv"));
         $this->assertCount(2, $testHandler->getRecords());
     }
+
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testSuccessfulDownloadFromEmptyFolder($initialForwardSlash)
+    {
+        $key = "emptyfolder/*";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
+        $testHandler = new TestHandler();
+        $extractor = new Extractor([
+            "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
+            "key" => $key
+        ], (new Logger('test'))->pushHandler($testHandler));
+        $extractor->extract($this->path);
+
+        $this->assertCount(0, $testHandler->getRecords());
+    }
+    
+    /**
+     * @return array
+     */
+    public function initialForwardSlashProvider()
+    {
+        return [[true], [false]];
+    }
 }
