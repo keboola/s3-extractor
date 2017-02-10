@@ -1,5 +1,10 @@
 <?php
 
+// Catch all warnings and notices
+set_error_handler(function ($errno, $errstr, $errfile, $errline, array $errcontext) {
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+});
+
 require __DIR__ . '/../vendor/autoload.php';
 
 use Keboola\S3Extractor\Application;
