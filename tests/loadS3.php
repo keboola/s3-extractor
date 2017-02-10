@@ -30,7 +30,6 @@ $dest = 's3://' . $bucket;
 // clear bucket
 $result = $client->listObjects([
     'Bucket' => $bucket,
-    'Delimiter' => '/',
 ]);
 
 $objects = $result->get('Contents');
@@ -51,7 +50,6 @@ if ($objects) {
 $manager = new \Aws\S3\Transfer($client, $source, $dest, [
     'debug' => true,
 ]);
-
 
 // Perform the transfer synchronously.
 $manager->transfer();
