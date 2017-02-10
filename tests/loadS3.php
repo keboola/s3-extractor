@@ -56,4 +56,12 @@ $manager = new \Aws\S3\Transfer($client, $source, $dest, [
 // Perform the transfer synchronously.
 $manager->transfer();
 
+// put empty folder
+print "Creating /emptyfolder/\n";
+$client->putObject([
+    'Bucket' => $bucket,
+    'Key' => 'emptyfolder/'
+]);
+
+
 echo "Data loaded OK\n";
