@@ -25,14 +25,21 @@ class WildcardKeyTest extends \PHPUnit_Framework_TestCase
         passthru('rm -rf ' . $this->path);
     }
 
-    public function testSuccessfulDownloadFromRoot()
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testSuccessfulDownloadFromRoot($initialForwardSlash)
     {
+        $key = "f*";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
         $testHandler = new TestHandler();
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
             "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-            "key" => "/f*"
+            "key" => $key
         ], (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
@@ -48,14 +55,21 @@ class WildcardKeyTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $testHandler->getRecords());
     }
 
-    public function testSuccessfulDownloadFromFolder()
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testSuccessfulDownloadFromFolder($initialForwardSlash)
     {
+        $key = "folder2/*";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
         $testHandler = new TestHandler();
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
             "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-            "key" => "/folder2/*"
+            "key" => $key
         ], (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 

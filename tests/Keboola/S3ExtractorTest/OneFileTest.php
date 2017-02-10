@@ -27,14 +27,21 @@ class OneFileTest extends \PHPUnit_Framework_TestCase
         passthru('rm -rf ' . $this->path);
     }
 
-    public function testSuccessfulDownloadFromRoot()
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testSuccessfulDownloadFromRoot($initialForwardSlash)
     {
+        $key = "file1.csv";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
         $testHandler = new TestHandler();
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
             "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-            "key" => "/file1.csv"
+            "key" => $key
         ], (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
@@ -45,14 +52,21 @@ class OneFileTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $testHandler->getRecords());
     }
 
-    public function testSuccessfulDownloadFromFolder()
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testSuccessfulDownloadFromFolder($initialForwardSlash)
     {
+        $key = "folder1/file1.csv";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
         $testHandler = new TestHandler();
         $extractor = new Extractor([
             "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
             "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-            "key" => "/folder1/file1.csv"
+            "key" => $key
         ], (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
@@ -61,5 +75,13 @@ class OneFileTest extends \PHPUnit_Framework_TestCase
         $this->assertFileEquals(__DIR__ . "/../../_data/folder1/file1.csv", $expectedFile);
         $this->assertTrue($testHandler->hasInfo("Downloading file /folder1/file1.csv"));
         $this->assertCount(1, $testHandler->getRecords());
+    }
+
+    /**
+     * @return array
+     */
+    public function initialForwardSlashProvider()
+    {
+        return [[true], [false]];
     }
 }
