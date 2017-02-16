@@ -42,19 +42,4 @@ class ApplicationTest extends TestCase
         $application->actionRun($this->path);
         $this->assertTrue($testHandler->hasInfo("Downloading file /file1.csv"));
     }
-
-    public function testApplicationPublicFile()
-    {
-        $config = [
-            "parameters" => [
-                "region" => getenv(self::AWS_REGION_ENV),
-                "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
-                "key" => "/public/file1.csv"
-            ]
-        ];
-        $testHandler = new TestHandler();
-        $application = new Application($config, $testHandler);
-        $application->actionRun($this->path);
-        $this->assertTrue($testHandler->hasInfo("Downloading file /public/file1.csv"));
-    }
 }
