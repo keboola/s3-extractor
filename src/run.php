@@ -33,7 +33,9 @@ try {
     );
     $outputPath = $arguments['data'] . '/out/files';
 
-    $application = new Application($config);
+    $streamHandler = new \GuzzleHttp\Handler\StreamHandler('php://stdout');
+    $streamHandler->setFormatter(new \Monolog\Formatter\LineFormatter("%message%"));
+    $application = new Application($config, $streamHandler);
     $application->actionRun($outputPath);
     exit(0);
 } catch (\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException $e) {
