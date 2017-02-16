@@ -6,8 +6,9 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
-class OneFileTest extends \PHPUnit_Framework_TestCase
+class OneFileTest extends TestCase
 {
     const AWS_S3_BUCKET_ENV = 'AWS_S3_BUCKET';
     const AWS_S3_ACCESS_KEY_ENV = 'TESTS_AWS_ACCESS_KEY';

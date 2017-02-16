@@ -3,8 +3,9 @@ namespace Keboola\S3ExtractorTest;
 
 use Keboola\S3Extractor\Exception;
 use Keboola\S3Extractor\Extractor;
+use PHPUnit\Framework\TestCase;
 
-class ExceptionsTest extends \PHPUnit_Framework_TestCase
+class ExceptionsTest extends TestCase
 {
     const AWS_S3_BUCKET_ENV = 'AWS_S3_BUCKET';
     const AWS_S3_ACCESS_KEY_ENV = 'TESTS_AWS_ACCESS_KEY';

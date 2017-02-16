@@ -4,8 +4,9 @@ namespace Keboola\S3ExtractorTest;
 use Keboola\S3Extractor\Extractor;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 
-class WildcardKeyTest extends \PHPUnit_Framework_TestCase
+class WildcardKeyTest extends TestCase
 {
     const AWS_S3_BUCKET_ENV = 'AWS_S3_BUCKET';
     const AWS_S3_ACCESS_KEY_ENV = 'TESTS_AWS_ACCESS_KEY';

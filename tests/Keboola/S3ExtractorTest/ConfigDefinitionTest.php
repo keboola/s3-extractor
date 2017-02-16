@@ -3,12 +3,13 @@
 namespace Keboola\S3ExtractorTest;
 
 use Keboola\S3Extractor\ConfigDefinition;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
-class ConfigDefinitionTest extends \PHPUnit_Framework_TestCase
+class ConfigDefinitionTest extends TestCase
 {
     public function testValidConfig()
     {
