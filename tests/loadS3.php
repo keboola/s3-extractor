@@ -54,6 +54,16 @@ $manager = new \Aws\S3\Transfer($client, $source, $dest, [
 // Perform the transfer synchronously.
 $manager->transfer();
 
+// duplicate into public folder
+// Create a transfer object.
+$manager = new \Aws\S3\Transfer($client, $source, $dest . '/public', [
+    'debug' => true,
+]);
+
+// Perform the transfer synchronously.
+$manager->transfer();
+
+
 // put empty folder
 print "Creating /emptyfolder/\n";
 $client->putObject([
@@ -61,5 +71,28 @@ $client->putObject([
     'Key' => 'emptyfolder/'
 ]);
 
+$client->putObject([
+    'Bucket' => $bucket,
+    'Key' => 'public/emptyfolder/'
+]);
+
+// setting ACL for public files
+print "Setting ACL for public files\n";
+// clear bucket
+$result = $client->listObjects([
+    'Bucket' => $bucket,
+]);
+$objects = $result->get('Contents');
+if ($objects) {
+    foreach ($objects as $object) {
+        if (substr($object['Key'], 0, 7) == 'public/') {
+            $client->putObjectAcl([
+                'Bucket' => $bucket,
+                'Key' => $object['Key'],
+                'ACL' => 'public-read'
+            ]);
+        }
+    }
+}
 
 echo "Data loaded OK\n";
