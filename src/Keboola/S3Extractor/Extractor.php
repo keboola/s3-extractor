@@ -16,6 +16,7 @@ class Extractor
     /**
      * @var Logger
      */
+    private $logger;
 
     /**
      * Extractor constructor.
