@@ -33,7 +33,7 @@ try {
     );
     $outputPath = $arguments['data'] . '/out/files';
 
-    $streamHandler = new \GuzzleHttp\Handler\StreamHandler('php://stdout');
+    $streamHandler = new \Monolog\Handler\StreamHandler('php://stdout');
     $streamHandler->setFormatter(new \Monolog\Formatter\LineFormatter("%message%"));
     $application = new Application($config, $streamHandler);
     $application->actionRun($outputPath);
