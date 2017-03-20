@@ -25,6 +25,9 @@ class Application
             new ConfigDefinition,
             [$this->config['parameters']]
         );
+        if (!isset($parameters['region']) && !isset($parameters['accessKeyId']) && !isset($parameters['#secretAccessKey'])) {
+            throw new Exception('For public files set the \'region\' parameter, for private files set both \'accessKeyId\' and \'#secretAccessKey\'.');
+        }
         $this->parameters = $parameters;
         $logger = new Logger('Log');
         if ($handler) {

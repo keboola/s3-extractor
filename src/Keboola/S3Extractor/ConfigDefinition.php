@@ -14,14 +14,9 @@ class ConfigDefinition implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('accessKeyId')
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('#secretAccessKey')
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                ->end()
+                ->scalarNode('accessKeyId')->end()
+                ->scalarNode('#secretAccessKey')->end()
+                ->scalarNode('region')->end()
                 ->scalarNode('bucket')
                     ->isRequired()
                     ->cannotBeEmpty()

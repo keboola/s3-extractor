@@ -43,33 +43,45 @@ class Extractor
      */
     public function extract($outputPath)
     {
-        $client = new S3Client([
-            'region' => 'us-east-1',
-            'version' => '2006-03-01',
-            'credentials' => [
-                'key' => $this->parameters['accessKeyId'],
-                'secret' => $this->parameters['#secretAccessKey'],
-            ]
-        ]);
-        try {
-            $region = $client->getBucketLocation(["Bucket" => $this->parameters["bucket"]])->get('LocationConstraint');
-        } catch (S3Exception $e) {
-            if ($e->getStatusCode() == 404) {
-                throw new Exception("Bucket {$this->parameters["bucket"]} not found.");
+        if (!isset($this->parameters['region'])) {
+            try {
+                $client = new S3Client(
+                    [
+                        'region' => 'us-east-1',
+                        'version' => '2006-03-01',
+                        'credentials' => [
+                            'key' => $this->parameters['accessKeyId'],
+                            'secret' => $this->parameters['#secretAccessKey'],
+                        ]
+                    ]
+                );
+                $region = $client->getBucketLocation(["Bucket" => $this->parameters["bucket"]])->get('LocationConstraint');
+            } catch (S3Exception $e) {
+                if ($e->getStatusCode() == 404) {
+                    throw new Exception("Bucket {$this->parameters["bucket"]} not found.");
+                }
+                if ($e->getStatusCode() == 403) {
+                    throw new Exception(
+                        "Invalid credentials or permissions not set correctly. Did you set s3:GetBucketLocation?"
+                    );
+                }
+                throw $e;
             }
-            if ($e->getStatusCode() == 403) {
-                throw new Exception("Invalid credentials or permissions not set correctly. Did you set s3:GetBucketLocation?");
-            }
-            throw $e;
+        } else {
+            $region = $this->parameters['region'];
         }
-        $client = new S3Client([
+        $options = [
             'region' => $region,
             'version' => '2006-03-01',
-            'credentials' => [
+            'credentials' => false
+        ];
+        if (isset($this->parameters['accessKeyId']) && isset($this->parameters["#secretAccessKey"])) {
+            $options["credentials"] = [
                 'key' => $this->parameters['accessKeyId'],
                 'secret' => $this->parameters['#secretAccessKey'],
-            ]
-        ]);
+            ];
+        }
+        $client = new S3Client($options);
 
         // Remove initial forwardslash
         $key = $this->parameters['key'];

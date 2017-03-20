@@ -13,6 +13,7 @@ class OneFileTest extends TestCase
     const AWS_S3_BUCKET_ENV = 'AWS_S3_BUCKET';
     const AWS_S3_ACCESS_KEY_ENV = 'TESTS_AWS_ACCESS_KEY';
     const AWS_S3_SECRET_KEY_ENV = 'TESTS_AWS_SECRET_KEY';
+    const AWS_REGION_ENV = 'AWS_REGION';
 
     protected $path = '/tmp/one-file';
 
@@ -29,60 +30,97 @@ class OneFileTest extends TestCase
     }
 
     /**
-     * @dataProvider initialForwardSlashProvider
+     * @param $initialForwardSlash
+     * @param $publicObject
+     * @dataProvider optionsProvider
      */
-    public function testSuccessfulDownloadFromRoot($initialForwardSlash)
+    public function testSuccessfulDownloadFromRoot($initialForwardSlash, $publicObject)
     {
         $key = "file1.csv";
+        if ($publicObject) {
+            $key = "public/" . $key;
+        }
         if ($initialForwardSlash) {
             $key = "/" . $key;
         }
+
         $testHandler = new TestHandler();
-        $extractor = new Extractor([
-            "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+
+        $options = [
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => $key
-        ], (new Logger('test'))->pushHandler($testHandler));
+        ];
+        if (!$publicObject) {
+            $options["accessKeyId"] = getenv(self::AWS_S3_ACCESS_KEY_ENV);
+            $options["#secretAccessKey"] = getenv(self::AWS_S3_SECRET_KEY_ENV);
+        } else {
+            $options["region"] = getenv(self::AWS_REGION_ENV);
+        }
+        $extractor = new Extractor($options, (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
         $expectedFile = $this->path . '/' . 'file1.csv';
         $this->assertFileExists($expectedFile);
         $this->assertFileEquals(__DIR__ . "/../../_data/file1.csv", $expectedFile);
-        $this->assertTrue($testHandler->hasInfo("Downloading file /file1.csv"));
+        if ($publicObject) {
+            $this->assertTrue($testHandler->hasInfo("Downloading file /public/file1.csv"));
+        } else {
+            $this->assertTrue($testHandler->hasInfo("Downloading file /file1.csv"));
+        }
         $this->assertCount(1, $testHandler->getRecords());
     }
 
     /**
-     * @dataProvider initialForwardSlashProvider
+     * @param $initialForwardSlash
+     * @param $publicObject
+     * @dataProvider optionsProvider
      */
-    public function testSuccessfulDownloadFromFolder($initialForwardSlash)
+    public function testSuccessfulDownloadFromFolder($initialForwardSlash, $publicObject)
     {
         $key = "folder1/file1.csv";
+        if ($publicObject) {
+            $key = "public/" . $key;
+        }
         if ($initialForwardSlash) {
             $key = "/" . $key;
         }
         $testHandler = new TestHandler();
-        $extractor = new Extractor([
-            "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
-            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+
+        $options = [
             "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
             "key" => $key
-        ], (new Logger('test'))->pushHandler($testHandler));
+        ];
+        if (!$publicObject) {
+            $options["accessKeyId"] = getenv(self::AWS_S3_ACCESS_KEY_ENV);
+            $options["#secretAccessKey"] = getenv(self::AWS_S3_SECRET_KEY_ENV);
+        } else {
+            $options["region"] = getenv(self::AWS_REGION_ENV);
+        }
+
+        $extractor = new Extractor($options, (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
         $expectedFile = $this->path . '/' . 'file1.csv';
         $this->assertFileExists($expectedFile);
         $this->assertFileEquals(__DIR__ . "/../../_data/folder1/file1.csv", $expectedFile);
-        $this->assertTrue($testHandler->hasInfo("Downloading file /folder1/file1.csv"));
+        if ($publicObject) {
+            $this->assertTrue($testHandler->hasInfo("Downloading file /public/folder1/file1.csv"));
+        } else {
+            $this->assertTrue($testHandler->hasInfo("Downloading file /folder1/file1.csv"));
+        }
         $this->assertCount(1, $testHandler->getRecords());
     }
 
     /**
      * @return array
      */
-    public function initialForwardSlashProvider()
+    public function optionsProvider()
     {
-        return [[true], [false]];
+        return [
+            [true, false],
+            [false, false],
+            [true, true],
+            [false, true]
+        ];
     }
 }
