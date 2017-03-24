@@ -125,10 +125,12 @@ class Extractor
             ];
         }
 
+        $downloadedFiles = 0;
         foreach ($filesToDownload as $fileToDownload) {
             try {
                 $this->logger->info("Downloading file /" . $fileToDownload["Key"]);
                 $client->getObject($fileToDownload);
+                $downloadedFiles++;
             } catch (S3Exception $e) {
                 if ($e->getStatusCode() == 404) {
                     throw new Exception("File {$fileToDownload["Key"]} not found.");
@@ -139,5 +141,6 @@ class Extractor
                 throw $e;
             }
         }
+        $this->logger->info("Downloaded {$downloadedFiles} file(s)");
     }
 }

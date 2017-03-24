@@ -50,7 +50,8 @@ class OneFileTest extends TestCase
         $this->assertFileExists($expectedFile);
         $this->assertFileEquals(__DIR__ . "/../../_data/file1.csv", $expectedFile);
         $this->assertTrue($testHandler->hasInfo("Downloading file /file1.csv"));
-        $this->assertCount(1, $testHandler->getRecords());
+        $this->assertTrue($testHandler->hasInfo("Downloaded 1 file(s)"));
+        $this->assertCount(2, $testHandler->getRecords());
     }
 
     /**
@@ -75,7 +76,8 @@ class OneFileTest extends TestCase
         $this->assertFileExists($expectedFile);
         $this->assertFileEquals(__DIR__ . "/../../_data/folder1/file1.csv", $expectedFile);
         $this->assertTrue($testHandler->hasInfo("Downloading file /folder1/file1.csv"));
-        $this->assertCount(1, $testHandler->getRecords());
+        $this->assertTrue($testHandler->hasInfo("Downloaded 1 file(s)"));
+        $this->assertCount(2, $testHandler->getRecords());
     }
 
     /**

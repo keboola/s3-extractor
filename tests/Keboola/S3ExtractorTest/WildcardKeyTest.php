@@ -53,7 +53,8 @@ class WildcardKeyTest extends TestCase
         $this->assertFileNotExists($this->path . '/folder2/file1.csv');
         $this->assertFileNotExists($this->path . '/folder2/file2.csv');
         $this->assertTrue($testHandler->hasInfo("Downloading file /file1.csv"));
-        $this->assertCount(1, $testHandler->getRecords());
+        $this->assertTrue($testHandler->hasInfo("Downloaded 1 file(s)"));
+        $this->assertCount(2, $testHandler->getRecords());
     }
 
     /**
@@ -84,7 +85,8 @@ class WildcardKeyTest extends TestCase
 
         $this->assertTrue($testHandler->hasInfo("Downloading file /folder2/file1.csv"));
         $this->assertTrue($testHandler->hasInfo("Downloading file /folder2/file1.csv"));
-        $this->assertCount(2, $testHandler->getRecords());
+        $this->assertTrue($testHandler->hasInfo("Downloaded 2 file(s)"));
+        $this->assertCount(3, $testHandler->getRecords());
     }
 
     /**
@@ -105,7 +107,9 @@ class WildcardKeyTest extends TestCase
         ], (new Logger('test'))->pushHandler($testHandler));
         $extractor->extract($this->path);
 
-        $this->assertCount(0, $testHandler->getRecords());
+        $this->assertTrue($testHandler->hasInfo("Downloaded 0 file(s)"));
+        $this->assertCount(1, $testHandler->getRecords());
+    }
     }
     
     /**
