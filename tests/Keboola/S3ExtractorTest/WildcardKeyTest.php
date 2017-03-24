@@ -110,8 +110,29 @@ class WildcardKeyTest extends TestCase
         $this->assertTrue($testHandler->hasInfo("Downloaded 0 file(s)"));
         $this->assertCount(1, $testHandler->getRecords());
     }
+
+    /**
+     * @dataProvider initialForwardSlashProvider
+     */
+    public function testNoFilesDownloaded($initialForwardSlash)
+    {
+        $key = "nonexiting*";
+        if ($initialForwardSlash) {
+            $key = "/" . $key;
+        }
+        $testHandler = new TestHandler();
+        $extractor = new Extractor([
+            "accessKeyId" => getenv(self::AWS_S3_ACCESS_KEY_ENV),
+            "#secretAccessKey" => getenv(self::AWS_S3_SECRET_KEY_ENV),
+            "bucket" => getenv(self::AWS_S3_BUCKET_ENV),
+            "key" => $key
+        ], (new Logger('test'))->pushHandler($testHandler));
+        $extractor->extract($this->path);
+
+        $this->assertTrue($testHandler->hasInfo("Downloaded 0 file(s)"));
+        $this->assertCount(1, $testHandler->getRecords());
     }
-    
+
     /**
      * @return array
      */
