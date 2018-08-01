@@ -1,3 +1,7 @@
+# Deprecated
+
+Use https://github.com/keboola/aws-s3-extractor
+
 # Keboola Simple AWS S3 Extractor
  
 [![Build Status](https://travis-ci.org/keboola/s3-extractor.svg?branch=master)](https://travis-ci.org/keboola/s3-extractor) [![Code Climate](https://codeclimate.com/github/keboola/s3-extractor/badges/gpa.svg)](https://codeclimate.com/github/keboola/s3-extractor) [![Test Coverage](https://codeclimate.com/github/keboola/s3-extractor/badges/coverage.svg)](https://codeclimate.com/github/keboola/s3-extractor)
