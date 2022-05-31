@@ -50,3 +50,7 @@ docker-compose run --rm php-tests
 ```
 
 Tests are executed against real S3. S3 credentials have to be provided.
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
